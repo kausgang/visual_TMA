@@ -3,9 +3,54 @@
   <head>
     <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <script>
+    
+    function validate(){
+      
+      var option = document.getElementById('option').value
+      
+      if(option == 'put_data'){
+        alert("Put Data operation is not yet implemented");
+        return false;
+      }
+        
+      if(option == 'get_first'){
+        alert("Get First - operation is not yet implemented");
+        return false;
+      }
+        
+
+    }
+      
+
+    </script>
+
   </head>
   <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+
+    <div id='input_select'>
+        <h1>Select Operation</h1>
+        <form action="/select_option"  onsubmit="return validate()">
+          <select id="option">
+              <option value="put_data" id="put_data">Put Message in Queue</option>
+              <option value="check_depth" id="check_depth">Check Depth of Queue</option>
+              <option value="get_first" id="get_first">Get the first Message</option>
+          </select>
+          <input type="submit">
+        </form>
+    </div>
+
+    <!-- <br> -->
+    <div id='config_details'>
+      <h3>
+          <%= config_details %>
+      </h3>
+    </div>
+    
+
+
   </body>
 </html>
