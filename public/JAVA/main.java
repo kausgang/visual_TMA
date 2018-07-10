@@ -13,19 +13,21 @@ public class main {
 
         if(args.length == 0){
             System.out.println("Please input propertyfilename & operation as commandline input");
-            System.out.println("operation can be \"put_data\" or \"check_depth\" or \"get_first\"");
+            System.out.println("operation can be \"put_data\" or \"check_depth\" or \"get_first\" or \"message_content\"");
             System.out.println("example usage : java main conf.ini check_depth");
             System.out.println("example usage : java main conf.ini get_first");
             System.out.println("example usage : java main conf.ini put_data \"<input message>\"");
+            System.out.println("example usage : java main conf.ini message_content");
 
             System.exit(1);
         }
         if(args.length == 1){
             System.out.println("You entered property file name only, Please input propertyfilename & operation as commandline input");
-            System.out.println("operation can be \"put_data\" or \"check_depth\" or \"get_first\"");
+            System.out.println("operation can be \"put_data\" or \"check_depth\" or \"get_first\" or \"message_content\"");
             System.out.println("example usage : java main conf.ini check_depth");
             System.out.println("example usage : java main conf.ini get_first");
             System.out.println("example usage : java main conf.ini put_data \"<input message>\"");
+            System.out.println("example usage : java main conf.ini message_content");
 
             java.io.File file = new java.io.File(args[0]);
             if (!file.exists()){
@@ -59,14 +61,16 @@ public class main {
 
             mq mq = new mq(hostname,port,userID,password,channel,queuemanager,queue);
 
+//            CHECK THE DEPTH OF QUEUE
             if(operation.equals("check_depth")){
-
                 int depth = mq.check_depth();
                 //write("queue_depth",Integer.toString(depth));
                 System.out.println(depth);
             }
 
 
+//            PUT CONTENT OF FILE INTO QUEUE
+//                    THIS ONE NEEDS TO BE UPDATED
             if(operation.equals("put_data")){
 
                 if(args.length != 3){
@@ -78,24 +82,30 @@ public class main {
                 }
                 put_data=args[2];
 
-
                 //PUT MESSAGE IN QUEUE
                 mq.put_message_data(put_data);
-
             }
 
 
+//            POP THE FIRST MESSAGE
             if(operation.equals("get_first")){
 
-//                RETRIEVE & DELETE FIRST MESSAGE FROM QUEUE - IT WORKS AS QUEUE
-            MQMessage msg = mq.get_message();
+    //                RETRIEVE & DELETE FIRST MESSAGE FROM QUEUE - IT WORKS AS QUEUE
+                MQMessage msg = mq.get_message();
 
-            //GET MESSAGE DATA
-            int msg_length = msg.getMessageLength();
-            String msg_data = msg.readStringOfByteLength(msg_length);
+                //GET MESSAGE DATA
+                int msg_length = msg.getMessageLength();
+                String msg_data = msg.readStringOfByteLength(msg_length);
 
-            //write("msg.xml",msg_data);
-                System.out.println(msg_data);
+                //write("msg.xml",msg_data);
+                    System.out.println(msg_data);
+            }
+
+//            BROWSE THE QUEUE FOR MESSAGE
+            if(operation.equals("message_content")){
+
+                MQMessage msg = mq.message_content();
+
             }
 
 
